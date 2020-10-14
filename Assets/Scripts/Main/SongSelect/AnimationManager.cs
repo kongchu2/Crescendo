@@ -10,6 +10,6 @@ public class AnimationManager : MonoBehaviour{
             hitAnims[i] = hitAnimParent.GetChild(i).GetComponent<Animator>();
     }
     public static void HitPlay(int lane) {
-        hitAnims[lane].SetBool("isHit", true);
+        hitAnims[lane].SetTrigger("Hit");
     }
 }

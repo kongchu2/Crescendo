@@ -4,7 +4,11 @@ using System.IO;
 
 public class SheetParser
 {//음악 정보 파일을 읽는 코드
-    public static Dictionary<string, string> InfoParse(TextAsset sheet)
+    TextAsset sheet;
+    public SheetParser(TextAsset sheet) {
+        this.sheet = sheet;
+    }
+    public Dictionary<string, string> InfoParse()
     {
         string[] textSplit;
         string sheetText;
@@ -18,19 +22,23 @@ public class SheetParser
         }
         return musicInfo;
     }
-    public static void NoteParse(TextAsset sheet)
+    public void NoteParse()
     {
         string[] textSplit;
         string sheetText;
         StringReader stringReader = new StringReader(sheet.text);
+
         while (!(sheetText = stringReader.ReadLine()).Contains("[NotesInfo]")){}
         while(!(sheetText = stringReader.ReadLine()).Contains("[NotesInfoEND]"))
         {//노트부분
             textSplit = sheetText.Split(',');
+
             int noteLaneNum = int.Parse(textSplit[0]);
             float noteTime = (int.Parse(textSplit[1])+int.Parse(MusicManager.musicInfo["Offset"])) * 0.001f;
             float longNoteTime = int.Parse(textSplit[2]) * 0.001f;
-            NoteManager.SetNote(noteLaneNum, noteTime, longNoteTime);
+
+            NoteManager.noteTimeQueue[noteLaneNum-1].Enqueue(new NoteInfo(noteTime, longNoteTime));
+            Judgement.noteTimeQueue[noteLaneNum-1].Enqueue(new NoteInfo(noteTime, longNoteTime));
         }
     }
 }

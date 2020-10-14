@@ -20,11 +20,6 @@ public class NoteManager : MonoBehaviour
         for(int i=0;i<GameManager.KEY;i++)
             SpawnPosList[i] = Lanes.GetChild(i);
     }
-    public static void SetNote(int laneNumber, float noteTime, float longNoteTime)
-    {
-        noteTimeQueue[laneNumber-1].Enqueue(new NoteInfo(noteTime, longNoteTime));
-        Judgement.noteTimeQueue[laneNumber-1].Enqueue(new NoteInfo(noteTime, longNoteTime));
-    }
     public void NoteGenerate()
     {
         for (int i = 0; i < GameManager.KEY; i++)

@@ -10,9 +10,7 @@ public class UIManager : MonoBehaviour
     void Awake()
     {
         if(null == instance)
-        {
             instance = this;
-        }
     }
     public static UIManager Instance
     {
