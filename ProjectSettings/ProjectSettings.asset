@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 20
-  productGUID: e51147f92ebb04c43a367051870ab18a
+  productGUID: 3e7a35f1f34f4a343bfd6042d1d93bfb
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: Crescendo
+  productName: Crescendo_
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -640,9 +640,9 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  cloudProjectId: ef676285-7244-4bb4-80f6-febf053bb73b
+  cloudProjectId: ed6a4931-fcda-4ad2-bdf9-06878e44aea4
   framebufferDepthMemorylessMode: 0
-  projectName: Crescendo
+  projectName: Crescendo_
   organizationId: crescendo_game
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
