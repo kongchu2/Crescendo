@@ -8,24 +8,18 @@ public class GameMgr : MonoBehaviour
     {
         DontDestroyOnLoad(this.gameObject);
         back = GetComponent<AudioSource>();
+        Screen.SetResolution(1920, 1080, true);
     }
     void Update()
     {
         if(SceneManager.GetActiveScene().name != "Main")
-        {
             if (Input.GetKeyDown(KeyCode.Escape))
-            {
                 LoadScene();
-            }
-        }
     }
-    void LoadScene()
-    {
-        Destroy(this.gameObject);
-        SceneManager.LoadScene("Start");
+    void LoadScene() {
+        SceneManager.LoadScene("Select");
     }
-    private void OnEnable()
-    {
+    private void OnEnable() {
         back.Play();
     }
 }

@@ -13,6 +13,7 @@ public class MoveSelect : MonoBehaviour
     void Update()
     {
         Vector3 velo = Vector3.zero;
-        transform.position = Vector3.SmoothDamp(transform.position, target,ref velo, 0.03f);
+        //transform.position = Vector3.SmoothDamp(transform.position, target,ref velo, 0.3f);
+        transform.position = Vector3.Lerp(transform.position, target, Time.deltaTime * 10f);
     }
 }

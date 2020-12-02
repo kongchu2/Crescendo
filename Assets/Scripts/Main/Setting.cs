@@ -1,7 +1,7 @@
 public class Setting {
     private static Setting instance;
     public int key = 4;
-    public float userSpeedRate = 16f;
+    public float userSpeedRate = 10f;
     
     //public int gearPosMode = 1;
     public static Setting Instance {

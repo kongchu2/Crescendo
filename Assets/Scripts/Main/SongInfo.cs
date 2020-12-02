@@ -9,6 +9,7 @@ public class SongInfo
     private TextAsset sheet;
     private VideoClip BGA;
     private Sprite sprite;
+    private string difficulty;
 
     public static SongInfo Instance {
         get {
@@ -23,6 +24,9 @@ public class SongInfo
         this.BGA = _BGA;
         this.sprite = _sprite;
     }
+    public void setDifficulty(string _difficulty) {
+        difficulty = _difficulty;
+    }
     public AudioClip getMusic() {
         return music;
     }
@@ -34,5 +38,8 @@ public class SongInfo
     }
     public Sprite getSprite() {
         return sprite;
+    }
+    public string getDifficulty() {
+        return difficulty;
     }
 }

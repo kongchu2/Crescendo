@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class NoteGenerator : MonoBehaviour
 {
-    public static Queue<NoteInfo>[] noteTimeQueue;
+    private int[] listIndex;
+    public static List<NoteInfo>[] noteTimeList;
 
     public GameObject[] notePrefabList;
     
@@ -12,9 +13,11 @@ public class NoteGenerator : MonoBehaviour
 
     private void Awake()
     {
-        noteTimeQueue = new Queue<NoteInfo>[Setting.Instance.key];
+        listIndex = new int[Setting.Instance.key];
+
+        noteTimeList = new List<NoteInfo>[Setting.Instance.key];
         for(int i=0;i<Setting.Instance.key;i++)
-            noteTimeQueue[i] = new Queue<NoteInfo>();
+            noteTimeList[i] = new List<NoteInfo>();
 
         SpawnPosList = new Transform[Setting.Instance.key];
         for(int i=0;i<Setting.Instance.key;i++)
@@ -22,20 +25,21 @@ public class NoteGenerator : MonoBehaviour
     }
     private void Update()
     {
+        if(!Record.Instance.isGameOver)
             NoteGenerate();
     }
     private void NoteGenerate()
     {
         for (int i = 0; i < Setting.Instance.key; i++)
         {
-            if (noteTimeQueue[i].Count == 0)
+            if (noteTimeList[i].Count == listIndex[i])
                 continue;
-            float noteSpawnLeftTime = (MusicManager.currentMusicTime - noteTimeQueue[i].Peek().noteTime) * -Setting.Instance.userSpeedRate;
+            float noteSpawnLeftTime = (MusicManager.currentMusicTime - noteTimeList[i][listIndex[i]].noteTime) * -Setting.Instance.userSpeedRate;
             if (noteSpawnLeftTime-1 <= SpawnPosList[i].position.y)
             {
-                NoteInfo noteInfo = noteTimeQueue[i].Dequeue();
-                GameObject note = Instantiate(notePrefabList[i],
-                new Vector2(SpawnPosList[i].position.x,//x
+                NoteInfo noteInfo = noteTimeList[i][listIndex[i]++];
+                GameObject note = Instantiate(notePrefabList[i],//풀링
+                new Vector2(SpawnPosList[i].position.x, //x
                             SpawnPosList[i].position.y),//y
                             Quaternion.identity,//Rotation
                             SpawnPosList[i]);//Parent

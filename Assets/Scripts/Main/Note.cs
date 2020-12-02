@@ -5,14 +5,16 @@ public class Note : MonoBehaviour
     public float myTime;
     void Update()
     {
-        if (!PauseMenu.isPause)
+        if (!PauseMenu.Instance.isPause)
         {
             Move();
             if (MusicManager.currentMusicTime - myTime > 0.1275f)
             {
-                Destroy(gameObject);
                 Record.Instance.ComboBreak(false);
+                Record.Instance.HPminusplus(-1);
                 UIManager.Instance.setJudgementSpriteByIndex(5);
+                Record.Instance.judgementedNoteCount++;
+                Destroy(gameObject);
             }
         }
     }
@@ -22,6 +24,6 @@ public class Note : MonoBehaviour
     }
     private void OnDestroy()
     {
-        Judgement.noteTimeQueue[(int)transform.parent.transform.localPosition.x+2].Dequeue();
+        Judgement.listIndex[(int)transform.parent.transform.localPosition.x+2]++;
     }
 }

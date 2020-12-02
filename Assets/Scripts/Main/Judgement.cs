@@ -1,52 +1,45 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 public class Judgement
 {
-    public static Queue<NoteInfo>[] noteTimeQueue;
+    public static int[] listIndex;
     public JudgementInfo[] judgementInfos = {
-        new JudgementInfo("320", 0.0165f, 320, false),
-        new JudgementInfo("300", 0.0405f, 300, false),
-        new JudgementInfo("200", 0.0735f, 200, false),
-        new JudgementInfo("100", 0.1035f, 100, false),
-        new JudgementInfo("50", 0.1275f, 50, false),
-        new JudgementInfo("0", 0.3f, 0, true)
+        new JudgementInfo("320", 0.0165f, 320, false),//marvelous
+        new JudgementInfo("300", 0.0405f, 300, false),//perfect
+        new JudgementInfo("200", 0.0735f, 200, false),//great
+        new JudgementInfo("100", 0.1035f, 100, false),//good
+        new JudgementInfo("50", 0.1275f, 50, false),//bad
+        new JudgementInfo("0", 0.2f, 0, true)//idiot
     };
-
     public Judgement() {
-        noteTimeQueue = new Queue<NoteInfo>[Setting.Instance.key];
-        for(int i=0;i<noteTimeQueue.Length;i++)
-            noteTimeQueue[i] = new Queue<NoteInfo>();
+        listIndex = new int[Setting.Instance.key];
     }
-    public void JudgementNote(bool[] inputs, bool[] canPress)
+    public void JudgementNote(int laneNum)
     {
-        for(int laneNum=0;laneNum<inputs.Length;laneNum++) {
-            if(inputs[laneNum] && canPress[laneNum]) {
-                if(noteTimeQueue[laneNum].Count == 0)
-                    continue;
-                float noteTime = noteTimeQueue[laneNum].Peek().noteTime;
-                int judge = TimeJudgement(noteTime, laneNum);
-                UIManager.Instance.setJudgementSpriteByIndex(judge);
-                canPress[laneNum] = false;
-            }
-        }
+        if(listIndex[laneNum] == NoteGenerator.noteTimeList[laneNum].Count)
+            return;
+        float noteTime = NoteGenerator.noteTimeList[laneNum][listIndex[laneNum]].noteTime;
+        int judge = TimeJudgement(noteTime, laneNum);
     }
     private int TimeJudgement(float pressTime,int laneNum)
     {
         float musicTime = MusicManager.currentMusicTime;//음악시간
         float errorTime = Mathf.Abs(musicTime - pressTime);//음악시간-누른시간=누른시간차이
-        for(int i=0;i<judgementInfos.Length;i++)
-        {
-            if(errorTime <= judgementInfos[i].time)
-            {
-                if(NoteGenerator.SpawnPosList[laneNum].childCount != 0)//가장 아래에 있는 노트 삭제
-                    Object.Destroy(NoteGenerator.SpawnPosList[laneNum].GetChild(0).gameObject);
-                if(judgementInfos[i].comboBreak)//콤보깨지는판정이면 콤보깨짐
-                    Record.Instance.ComboBreak(true);
-                else {
+        for(int i=0;i<judgementInfos.Length;i++) {//가장가까운판정부터
+            if(errorTime <= judgementInfos[i].time) {//시간내에쳤으면
+                if(!judgementInfos[i].comboBreak) {
                     Record.Instance.ComboPlus();
                     AnimationManager.HitPlay(laneNum);
+                    if(NoteGenerator.SpawnPosList[laneNum].childCount != 0)//가장 아래에 있는 노트 삭제
+                        Object.Destroy(NoteGenerator.SpawnPosList[laneNum].GetChild(0).gameObject);
+                }
+                else {//노트부분의코드와겹침
+                    Record.Instance.ComboBreak(true);
+                    Record.Instance.HPminusplus(-1);
                 }
                 Record.Instance.ScorePlus(judgementInfos[i].score);
+                UIManager.Instance.currentTime = 0;
+                UIManager.Instance.setJudgementSpriteByIndex(i);
+                Record.Instance.judgementedNoteCount++;
                 return i;
             }
         }

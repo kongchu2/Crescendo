@@ -11,11 +11,19 @@ public class GameManager : MonoBehaviour
     {
         SheetParser parser = new SheetParser(sheet);
         MusicManager.musicInfo = parser.InfoParse();
-        parser.NoteParse();
-        Record.Instance.Reset();
+        parser.NoteParse(SongInfo.Instance.getDifficulty());
+        Record.Instance.reset();
     }
     public static void ChangeScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
+    }
+    public void SelectScene()
+    {
+        PauseMenu.Instance.PauseAndResume(false);
+        ChangeScene("Select");
+    }
+    public void ReStart() {
+        ChangeScene("Main");
     }
 }

@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public class DbleClick : MonoBehaviour , IPointerClickHandler
 {
@@ -18,9 +15,9 @@ public class DbleClick : MonoBehaviour , IPointerClickHandler
         if(eventData.clickCount == 2)
         {
             GameObject.Find("Fade").GetComponent<Fade2>().FadeIn();
+            SongInfo.Instance.setDifficulty(gameObject.name);
             sound.Play();
             FindObjectOfType<SceneChange>().Delay();
         }
     }
-
 }

@@ -3,53 +3,39 @@
 public class InputManager : MonoBehaviour
 {
     private Judgement judge;
+    public  Transform keyBeams;
     private GameObject[] keyBeamList;
-
-    public Transform keyBeams;
-
-    private readonly KeyCode[] KeyCodes = { KeyCode.D, KeyCode.F, KeyCode.J, KeyCode.K };
-    private bool[] inputs;//입력데이터
-    private bool[] canPress;//노트를 부실 수 있는가
-
+    public  KeyCode[] KeyCodes = { KeyCode.D, KeyCode.F, KeyCode.J, KeyCode.K };
     private void Awake()
     {
+        judge = new Judgement();
         keyBeamList = new GameObject[keyBeams.childCount];
         for (int i = 0; i < keyBeams.childCount; i++)
             keyBeamList[i] = keyBeams.GetChild(i).gameObject;
-        inputs = new bool[Setting.Instance.key];
-        canPress = new bool[Setting.Instance.key];
-        for(int i=0;i<canPress.Length;i++)
-            canPress[i] = true;
-        judge = new Judgement();
-        UIManager.Instance.setNoteSpeedRateUI_Text(Setting.Instance.userSpeedRate.ToString());
     }
     private void Update()
     {
-        GetInput();//입력
-        for (int i = 0; i < canPress.Length; i++) {
-            if (Input.GetKeyDown(KeyCodes[i]))
-                SoundManager.Instance.HitSoundPlay();
-            canPress[i] = Input.GetKeyUp(KeyCodes[i]) || canPress[i];
+        if (Input.GetKeyDown(KeyCode.Escape) && !Record.Instance.isGameOver) {
+            PauseMenu.Instance.isPause = !PauseMenu.Instance.isPause;
+            PauseMenu.Instance.PauseAndResume(PauseMenu.Instance.isPause);
         }
-        judge.JudgementNote(inputs, canPress);
-        KeyBeam();
-        ChangeSpeedRate();
-        BackDoor();
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if(Input.anyKey && !PauseMenu.Instance.isPause && !Record.Instance.isGameOver)
         {
-            PauseMenu.isPause = !PauseMenu.isPause;
-            PauseMenu.PauseAndResume(PauseMenu.isPause);
+            for(int i=0;i<Setting.Instance.key;i++) {
+                if(Input.GetKeyDown(KeyCodes[i]))
+                    LaneKeyDown(i);
+            }
+            ChangeSpeedRate();
+            BackDoor();
         }
+        for(int i=0;i<Setting.Instance.key;i++)
+        KeyBeam(i, Input.GetKey(KeyCodes[i]));
     }
-    private void GetInput()
-    {
-        for (int i = 0; i < inputs.Length; i++)
-            inputs[i] = Input.GetKey(KeyCodes[i]);
+    private void LaneKeyDown(int lane) {
+        judge.JudgementNote(lane);
     }
-    private void KeyBeam()
-    {
-        for (int i = 0; i < keyBeamList.Length; i++)
-            keyBeamList[i].SetActive(inputs[i]);
+    private void KeyBeam(int lane, bool input) {
+        keyBeamList[lane].SetActive(input);
     }
     private void ChangeSpeedRate() {
         if (Input.GetKeyDown(KeyCode.PageUp))

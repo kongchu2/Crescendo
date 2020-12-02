@@ -14,7 +14,7 @@ public class SoundManager : MonoBehaviour
         get {
             return instance;
         }
-    }
+    }   
 
     public void HitSoundPlay() {
         hit.Play();

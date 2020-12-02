@@ -6,6 +6,7 @@ public class UIManager : MonoBehaviour
     private static UIManager instance = null;
     void Awake() {
         instance = this;
+        setNoteSpeedRateUI_Text(Setting.Instance.userSpeedRate.ToString());
     }
     public static UIManager Instance {
         get {
@@ -17,11 +18,13 @@ public class UIManager : MonoBehaviour
     public Text noteSpeedRateUI;
 
     public Image JudgementUI;
+    public Image HPBar;
     public Sprite[] judgementSprites;
 
     public GameObject PauseUI;
-    
-    private float currentTime;
+    public GameObject gameOverUI;
+
+    public float currentTime;
     public float judgementRemoveDelay;
 
     void Update()
@@ -51,5 +54,8 @@ public class UIManager : MonoBehaviour
     }
     public void setPauseUI(bool active) {
         PauseUI.SetActive(active);
+    }
+    public void setGameOverUI(bool active) {
+        this.gameOverUI.SetActive(active);
     }
 }

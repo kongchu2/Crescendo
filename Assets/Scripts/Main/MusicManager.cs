@@ -25,6 +25,10 @@ public class MusicManager : MonoBehaviour
         GameManager.ChangeScene("Result");
     }
     private void Update() {
-        currentMusicTime = (float)(AudioSettings.dspTime - trackStartTime);
+        
+        if(Record.Instance.isGameOver)
+            music.Stop();
+        else
+            currentMusicTime = (float)(AudioSettings.dspTime - trackStartTime);
     }
 }

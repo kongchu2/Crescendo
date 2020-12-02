@@ -14,5 +14,6 @@ public class BGAPlayer : MonoBehaviour
     private void BGASetActive()
     {
         BGA.Play();
+        
     }
 }
