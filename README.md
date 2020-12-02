@@ -1,5 +1,5 @@
 # About The Project
-# SpaceFighter
+# Crescendo
 ### 이것은 2020년 분당경영고등학교 유니티게임개발동아리 프로젝트 개발 결과물입니다.
 ### This is the project result of the 2020 GameDev(Unity) Club of Bundang Management High School.
 <img src=""></img>
