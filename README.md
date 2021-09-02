@@ -5,8 +5,6 @@
 <img src="https://user-images.githubusercontent.com/48686444/100856853-4971c700-34cf-11eb-890e-d78f61685723.png"></img>
 ###### Rhythm Game.
 
-### DownLoad
-https://drive.google.com/drive/folders/1X3M_S3uAv0KEm_ZPbZ2oZbbNmpNjK1FM?usp=sharing
 ### How to Play
 Select song<br>
 doubleClick the Difficulty.
